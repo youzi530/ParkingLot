@@ -17,10 +17,10 @@ public class Parking1 {
             throw new RuntimeException("停车场已满，无法停车");
         } else {
             for (int i = 0; i < usersNum; i++) {
-                while (prakNum > 0) {
+                while (prakNum > 0 && ticketList.size() < usersNum) {
                     ParkingTicket parkingTicket = new ParkingTicket(i + 10000, users.get(i).getName(), users.get(i).getCid());
                     ticketList.add(parkingTicket);
-                    prakNum --;
+                    prakNum--;
                 }
             }
             return ticketList;

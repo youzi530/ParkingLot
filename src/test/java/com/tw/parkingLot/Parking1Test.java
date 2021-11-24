@@ -44,7 +44,11 @@ public class Parking1Test {
 
     @Test
     public void should_return_many_tickets_when_parkingLot_have_many_positions() {
-
+        users.add(sri);
+        users.add(heny);
+        users.add(lucy);
+        parkingLot = new ParkingLot(101, 10, carList);
+        assertEquals(3, new Parking1().Parking(parkingLot, users).size());
     }
 
     @Test

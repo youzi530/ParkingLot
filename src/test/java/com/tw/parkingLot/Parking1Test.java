@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -18,6 +19,9 @@ public class Parking1Test {
     ArrayList<Car> carList = new ArrayList<>();
     ParkingLot parkingLot;
     ArrayList<User> users = new ArrayList<>();
+    User sri;
+    User heny;
+    User lucy;
 
     @Before
     public void ready() {
@@ -26,17 +30,16 @@ public class Parking1Test {
         carList.add(tesla);
         carList.add(bmw);
 
-        User sri = new User(100001, "Sri", "男", "桥车");
-        User heny = new User(100002, "heny", "女", "跑车");
-        User lucy = new User(100004, "lucy", "男", "卡车");
-        users.add(sri);
-        users.add(heny);
-        users.add(lucy);
+        sri = new User(100001, "Sri", "男", "桥车",1006);
+        heny = new User(100002, "heny", "女", "跑车",1100);
+        lucy = new User(100004, "lucy", "男", "卡车",1400);
     }
 
     @Test
     public void should_parking_one_and_return_parkingTicket_when_parkingLot_have_one_position() {
-
+        users.add(sri);
+        parkingLot = new ParkingLot(101, 3, carList);
+        assertEquals(1, new Parking1().Parking(parkingLot, users).size());
     }
 
     @Test
@@ -46,10 +49,11 @@ public class Parking1Test {
 
     @Test
     public void should_parking_failed_when_no_position_to_park() {
+        users.add(sri);
         parkingLot = new ParkingLot(101, 2, carList);
 
         assertThrows(RuntimeException.class, () -> {
-            new Parking1().Parking(parkingLot);
+            new Parking1().Parking(parkingLot, users);
         });
     }
 

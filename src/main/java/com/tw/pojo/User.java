@@ -9,12 +9,14 @@ public class User {
     private String name;
     private String sex;
     private String carType;
+    private int cid; //对应车的id
 
-    public User(Integer uid, String name, String sex, String carType) {
+    public User(Integer uid, String name, String sex, String carType, int cid) {
         this.uid = uid;
         this.name = name;
         this.sex = sex;
         this.carType = carType;
+        this.cid = cid;
     }
 
     public Integer getUid() {
@@ -49,6 +51,14 @@ public class User {
         this.carType = carType;
     }
 
+    public int getCid() {
+        return cid;
+    }
+
+    public void setCid(int cid) {
+        this.cid = cid;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -56,6 +66,7 @@ public class User {
                 ", name='" + name + '\'' +
                 ", sex='" + sex + '\'' +
                 ", carType='" + carType + '\'' +
+                ", cid=" + cid +
                 '}';
     }
 }

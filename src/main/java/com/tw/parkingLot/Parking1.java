@@ -6,6 +6,7 @@ import com.tw.pojo.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Parking1 {
 
@@ -17,8 +18,8 @@ public class Parking1 {
             throw new RuntimeException("停车场已满，无法停车");
         } else {
             for (int i = 0; i < usersNum; i++) {
-                while (prakNum > 0 && ticketList.size() < usersNum) {
-                    ParkingTicket parkingTicket = new ParkingTicket(i + 10000, users.get(i).getName(), users.get(i).getCid());
+                if (prakNum > 0) {
+                    ParkingTicket parkingTicket = new ParkingTicket(100 + users.get(i).getUid(), users.get(i).getName(), users.get(i).getCid());
                     ticketList.add(parkingTicket);
                     prakNum--;
                 }

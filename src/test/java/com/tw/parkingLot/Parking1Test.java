@@ -49,6 +49,7 @@ public class Parking1Test {
         users.add(lucy);
         parkingLot = new ParkingLot(101, 10, carList);
         assertEquals(3, new Parking1().Parking(parkingLot, users).size());
+        assertEquals("Sri", new Parking1().Parking(parkingLot, users).get(0).gettName());
     }
 
     @Test

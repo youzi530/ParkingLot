@@ -6,7 +6,9 @@ import com.tw.pojo.ParkingTicket;
 import com.tw.pojo.User;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 public class Parking {
 
@@ -43,12 +45,14 @@ public class Parking {
 
     public Car PickUp(ParkingLot parkingLot, ParkingTicket ticket, User user) {
         List<Car> carList = parkingLot.getCarList();
-        carList.stream().findFirst().map(car -> {
-            if (car.getCid().equals(user.getCid())) {
+        Iterator<Car> iterator = carList.iterator();
+        while (iterator.hasNext()) {
+            Car car = iterator.next();
+            if(car.getCid().equals(user.getCid())){
                 carList.remove(car);
+                break;
             }
-            return carList;
-        });
+        }
         return new Car(user.getCid(), user.getcName());
     }
 }

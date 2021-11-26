@@ -10,13 +10,15 @@ public class User {
     private String sex;
     private String carType;
     private int cid; //对应车的id
+    private String cName;
 
-    public User(Integer uid, String name, String sex, String carType, int cid) {
+    public User(Integer uid, String name, String sex, String carType, int cid, String cName) {
         this.uid = uid;
         this.name = name;
         this.sex = sex;
         this.carType = carType;
         this.cid = cid;
+        this.cName = cName;
     }
 
     public Integer getUid() {
@@ -59,6 +61,14 @@ public class User {
         this.cid = cid;
     }
 
+    public String getcName() {
+        return cName;
+    }
+
+    public void setcName(String cName) {
+        this.cName = cName;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -67,6 +77,7 @@ public class User {
                 ", sex='" + sex + '\'' +
                 ", carType='" + carType + '\'' +
                 ", cid=" + cid +
+                ", cName='" + cName + '\'' +
                 '}';
     }
 }

@@ -35,6 +35,7 @@ public class ParkingTest {
         lucy = new User(100004, "lucy", "男", "卡车", 1400, "解放");
     }
 
+    //任务分解1：
     @Test
     public void should_parking_one_and_return_parkingTicket_when_parkingLot_have_one_position() {
         users.add(sri);
@@ -62,6 +63,7 @@ public class ParkingTest {
         });
     }
 
+    //任务分解2：
     @Test
     public void should_pick_up_my_car_when_parkinglot_only_have_my_car() {
         users.add(sri);
@@ -86,6 +88,7 @@ public class ParkingTest {
         assertEquals(1006, car.getCid());
     }
 
+    //任务分解3：
     @Test
     public void should_pick_up_failed_when_ticket_is_invalid() {
         users.add(sri);

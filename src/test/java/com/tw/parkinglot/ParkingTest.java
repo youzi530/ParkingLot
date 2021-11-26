@@ -6,6 +6,7 @@ import com.tw.pojo.ParkingTicket;
 import com.tw.pojo.User;
 import org.junit.Before;
 import org.junit.Test;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,9 +30,9 @@ public class ParkingTest {
         carList.add(tesla);
         carList.add(bmw);
 
-        sri = new User(100001, "Sri", "男", "桥车",1006,"比亚迪");
-        heny = new User(100002, "heny", "女", "跑车",1100,"兰博基尼");
-        lucy = new User(100004, "lucy", "男", "卡车",1400,"解放");
+        sri = new User(100001, "Sri", "男", "桥车", 1006, "比亚迪");
+        heny = new User(100002, "heny", "女", "跑车", 1100, "兰博基尼");
+        lucy = new User(100004, "lucy", "男", "卡车", 1400, "解放");
     }
 
     @Test
@@ -62,26 +63,43 @@ public class ParkingTest {
     }
 
     @Test
-    public void should_pick_up_my_car_when_parkinglot_only_have_my_car(){
+    public void should_pick_up_my_car_when_parkinglot_only_have_my_car() {
         users.add(sri);
         parkingLot = new ParkingLot(101, 3, new ArrayList<>());
         Parking park = new Parking();
-        List<ParkingTicket> parkings = park.parking(parkingLot, users);
+        List<ParkingTicket> tickets = park.parking(parkingLot, users);
 
-        Car car = park.PickUp(parkingLot, parkings.get(0), users.get(0));
-        assertEquals("比亚迪",car.getCarName());
-        assertEquals(1006,car.getCid());
+        Car car = park.PickUp(parkingLot, tickets, tickets.get(0), users.get(0));
+        assertEquals("比亚迪", car.getCarName());
+        assertEquals(1006, car.getCid());
     }
-    
+
     @Test
-    public void should_pick_up_my_car_when_parkinglot_have_many_cars(){
+    public void should_pick_up_my_car_when_parkinglot_have_many_cars() {
         users.add(sri);
         parkingLot = new ParkingLot(101, 10, carList);
         Parking park = new Parking();
-        List<ParkingTicket> parkings = park.parking(parkingLot, users);
+        List<ParkingTicket> tickets = park.parking(parkingLot, users);
 
-        Car car = park.PickUp(parkingLot, parkings.get(0), users.get(0));
-        assertEquals("比亚迪",car.getCarName());
-        assertEquals(1006,car.getCid());
+        Car car = park.PickUp(parkingLot, tickets, tickets.get(0), users.get(0));
+        assertEquals("比亚迪", car.getCarName());
+        assertEquals(1006, car.getCid());
+    }
+
+    @Test
+    public void should_pick_up_failed_when_ticket_is_invalid() {
+        users.add(sri);
+        parkingLot = new ParkingLot(101, 10, carList);
+        Parking park = new Parking();
+        List<ParkingTicket> tickets = park.parking(parkingLot, users);
+
+        assertThrows(RuntimeException.class, () -> {
+            park.PickUp(parkingLot, tickets, new ParkingTicket(10001, "Sri", 1006), users.get(0));
+        });
+    }
+
+    @Test
+    public void should_pick_up_again_failed_when_car_had_pick_up() {
+
     }
 }

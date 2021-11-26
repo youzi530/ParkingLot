@@ -8,7 +8,6 @@ import com.tw.pojo.User;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 
 public class Parking {
 
@@ -43,12 +42,15 @@ public class Parking {
     }
 
 
-    public Car PickUp(ParkingLot parkingLot, ParkingTicket ticket, User user) {
+    public Car PickUp(ParkingLot parkingLot, List<ParkingTicket> originTickets, ParkingTicket ticket, User user) {
         List<Car> carList = parkingLot.getCarList();
         Iterator<Car> iterator = carList.iterator();
+        if (!originTickets.contains(ticket)) {
+            throw new RuntimeException("车票无效，取车失败！");
+        }
         while (iterator.hasNext()) {
             Car car = iterator.next();
-            if(car.getCid().equals(user.getCid())){
+            if (car.getCid().equals(user.getCid())) {
                 carList.remove(car);
                 break;
             }

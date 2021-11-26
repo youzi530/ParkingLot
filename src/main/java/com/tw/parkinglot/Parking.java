@@ -45,7 +45,7 @@ public class Parking {
     public Car PickUp(ParkingLot parkingLot, List<ParkingTicket> originTickets, ParkingTicket ticket, User user) {
         List<Car> carList = parkingLot.getCarList();
         Iterator<Car> iterator = carList.iterator();
-        if (!originTickets.contains(ticket)) {
+        if (originTickets.isEmpty() || !originTickets.contains(ticket)) {
             throw new RuntimeException("车票无效，取车失败！");
         }
         while (iterator.hasNext()) {
@@ -55,6 +55,7 @@ public class Parking {
                 break;
             }
         }
+        originTickets.remove(ticket);
         return new Car(user.getCid(), user.getcName());
     }
 }

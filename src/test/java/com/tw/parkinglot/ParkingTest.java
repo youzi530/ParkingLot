@@ -100,6 +100,14 @@ public class ParkingTest {
 
     @Test
     public void should_pick_up_again_failed_when_car_had_pick_up() {
-
+        users.add(sri);
+        parkingLot = new ParkingLot(101, 10, carList);
+        Parking park = new Parking();
+        List<ParkingTicket> tickets = park.parking(parkingLot, users);
+        Car car1 = park.PickUp(parkingLot, tickets, tickets.get(0), users.get(0));
+        ParkingTicket ticket = new ParkingTicket(100101,"Sri",1006);
+        assertThrows(RuntimeException.class, () -> {
+            Car car2 = park.PickUp(parkingLot, tickets, ticket, users.get(0));
+        });
     }
 }

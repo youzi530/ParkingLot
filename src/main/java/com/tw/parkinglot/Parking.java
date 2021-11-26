@@ -1,6 +1,5 @@
 package com.tw.parkinglot;
 
-import com.tw.pojo.ParkingLot;
 import com.tw.pojo.ParkingTicket;
 import com.tw.pojo.User;
 

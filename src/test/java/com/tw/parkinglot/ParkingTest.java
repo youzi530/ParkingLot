@@ -69,4 +69,6 @@ public class ParkingTest {
         System.out.println(parking);
 
     }
+    
+    @Test
 }

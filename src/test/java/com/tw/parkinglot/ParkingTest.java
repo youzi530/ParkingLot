@@ -1,23 +1,22 @@
-package com.tw.parkingLot;
+package com.tw.parkinglot;
 
 import com.tw.pojo.Car;
-import com.tw.pojo.ParkingLot;
 import com.tw.pojo.ParkingTicket;
 import com.tw.pojo.User;
 import org.junit.Before;
 import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.List;
+
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
-public class Parking1Test {
+public class ParkingTest {
 
     ArrayList<Car> carList = new ArrayList<>();
-    ParkingLot parkingLot;
+    com.tw.pojo.ParkingLot parkingLot;
     ArrayList<User> users = new ArrayList<>();
     User sri;
     User heny;
@@ -38,8 +37,8 @@ public class Parking1Test {
     @Test
     public void should_parking_one_and_return_parkingTicket_when_parkingLot_have_one_position() {
         users.add(sri);
-        parkingLot = new ParkingLot(101, 3, carList);
-        assertEquals(1, new Parking1().Parking(parkingLot, users).size());
+        parkingLot = new com.tw.pojo.ParkingLot(101, 3, carList);
+        assertEquals(1, new Parking().parking(parkingLot, users).size());
     }
 
     @Test
@@ -47,19 +46,27 @@ public class Parking1Test {
         users.add(sri);
         users.add(heny);
         users.add(lucy);
-        parkingLot = new ParkingLot(101, 10, carList);
-        assertEquals(3, new Parking1().Parking(parkingLot, users).size());
-        assertEquals("Sri", new Parking1().Parking(parkingLot, users).get(0).gettName());
+        parkingLot = new com.tw.pojo.ParkingLot(101, 10, carList);
+        assertEquals(3, new Parking().parking(parkingLot, users).size());
+        assertEquals("Sri", new Parking().parking(parkingLot, users).get(0).gettName());
     }
 
     @Test
     public void should_parking_failed_when_no_position_to_park() {
         users.add(sri);
-        parkingLot = new ParkingLot(101, 2, carList);
+        parkingLot = new com.tw.pojo.ParkingLot(101, 2, carList);
 
         assertThrows(RuntimeException.class, () -> {
-            new Parking1().Parking(parkingLot, users);
+            new Parking().parking(parkingLot, users);
         });
     }
 
+    @Test
+    public void should_pick_up_my_car_when_parkinglot_only_have_my_car(){
+        users.add(sri);
+        parkingLot = new com.tw.pojo.ParkingLot(101, 3, null);
+        List<ParkingTicket> parking = new Parking().parking(parkingLot, users);
+        System.out.println(parking);
+
+    }
 }

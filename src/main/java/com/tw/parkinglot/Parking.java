@@ -1,4 +1,4 @@
-package com.tw.parkingLot;
+package com.tw.parkinglot;
 
 import com.tw.pojo.ParkingLot;
 import com.tw.pojo.ParkingTicket;
@@ -6,11 +6,16 @@ import com.tw.pojo.User;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
-public class Parking1 {
+public class Parking {
 
-    public List<ParkingTicket> Parking(ParkingLot parkingLot, List<User> users) {
+    /**
+     * 停车方法
+     * @param parkingLot
+     * @param users
+     * @return
+     */
+    public List<ParkingTicket> parking(com.tw.pojo.ParkingLot parkingLot, List<User> users) {
         int usersNum = users.size(); //当前等待停车的用户数量
         int prakNum = parkingLot.getpNumber() - parkingLot.getCarList().size(); //当前停车场剩余车位数 = 停车场的车位数-停车场已有车数量
         ArrayList<ParkingTicket> ticketList = new ArrayList<>();
@@ -26,5 +31,10 @@ public class Parking1 {
             }
             return ticketList;
         }
+    }
+
+
+    public void PickUp(){
+
     }
 }

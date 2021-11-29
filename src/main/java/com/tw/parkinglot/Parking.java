@@ -41,8 +41,8 @@ public class Parking {
         }
     }
 
-
-    public Car PickUp(ParkingLot parkingLot, List<ParkingTicket> originTickets, ParkingTicket ticket, User user) {
+    //错误逻辑：不能用用户保存的cid去和车的cid进行比较，而应该是车票和票池去比较
+    public Car pickUp(ParkingLot parkingLot, List<ParkingTicket> originTickets, ParkingTicket ticket, User user) {
         List<Car> carList = parkingLot.getCarList();
         Iterator<Car> iterator = carList.iterator();
         if (originTickets.isEmpty() || !originTickets.contains(ticket)) {
@@ -57,5 +57,20 @@ public class Parking {
         }
         originTickets.remove(ticket);
         return new Car(user.getCid(), user.getcName());
+    }
+
+    //1、根据票池来去和票做判断，
+    //2、换一个数据结构，使用map<>,key为票，然后value是车，这样就能克服
+    //3、进行方法重构，省去用户的加入
+    public Car pickUp(ParkingLot parkingLot, List<ParkingTicket> originTickets, ParkingTicket ticket) {
+        List<Car> carList = parkingLot.getCarList();
+        if (originTickets.isEmpty() || !originTickets.contains(ticket)) {
+            throw new RuntimeException("车票无效，取车失败！");
+        }
+        // car id = ticket id
+        Car car1 = carList.stream().filter(car -> car.getCid().equals(ticket.getCid())).findFirst().get();
+        ParkingTicket parkingTicket = originTickets.stream().filter(tickets -> tickets.getCid() == ticket.getCid()).findFirst().get();
+        originTickets.remove(ticket);
+        return car1;
     }
 }

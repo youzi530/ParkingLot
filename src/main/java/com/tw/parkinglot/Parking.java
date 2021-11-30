@@ -47,9 +47,12 @@ public class Parking {
         int prakNum2 = parkingLot2.getpNumber() - parkingLot2.getCarList().size(); //当前停车场2剩余车位数 = 停车场的车位数-停车场已有车数量
 
         ArrayList<ParkingTicket> ticketList = new ArrayList<>();
-        boolean flag = true;
+        boolean flag;
         for (int i = 0; i < usersNum; i++) {
             flag = true;
+            if (parkingLot2.getCarList().size() >= parkingLot2.getpNumber()) {
+                throw new RuntimeException("停车场已满，无法停车");
+            }
             if (prakNum1 > 0) { //当第一个停车场的剩余车位数大于零，就停到第一个停车场中
                 ParkingTicket parkingTicket = new ParkingTicket(100 + users.get(i).getUid(), users.get(i).getName(), users.get(i).getCid(), parkingLot1.getPid());
                 ticketList.add(parkingTicket);

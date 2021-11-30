@@ -71,7 +71,7 @@ public class ParkingTest {
         Parking park = new Parking();
         List<ParkingTicket> tickets = park.parking(parkingLot, users);
 
-        Car car = park.pickUp(parkingLot, tickets, tickets.get(0), users.get(0));
+        Car car = park.pickUp(parkingLot, tickets, tickets.get(0));
         assertEquals("比亚迪", car.getCarName());
         assertEquals(1006, car.getCid());
     }
@@ -83,7 +83,7 @@ public class ParkingTest {
         Parking park = new Parking();
         List<ParkingTicket> tickets = park.parking(parkingLot, users);
 
-        Car car = park.pickUp(parkingLot, tickets, tickets.get(0), users.get(0));
+        Car car = park.pickUp(parkingLot, tickets, tickets.get(0));
         assertEquals("比亚迪", car.getCarName());
         assertEquals(1006, car.getCid());
     }
@@ -97,7 +97,7 @@ public class ParkingTest {
         List<ParkingTicket> tickets = park.parking(parkingLot, users);
 
         assertThrows(RuntimeException.class, () -> {
-            park.pickUp(parkingLot, tickets, new ParkingTicket(10001, "Sri", 1006), users.get(0));
+            park.pickUp(parkingLot, tickets, new ParkingTicket(10001, "Sri", 1006,parkingLot.getPid()));
         });
     }
 
@@ -109,7 +109,7 @@ public class ParkingTest {
         List<ParkingTicket> tickets = park.parking(parkingLot, users);
         Car car1 = park.pickUp(parkingLot, tickets, tickets.get(0));
 
-        ParkingTicket ticket = new ParkingTicket(100101,"Sri",1006);
+        ParkingTicket ticket = new ParkingTicket(100101,"Sri",1006, parkingLot.getPid());
         assertThrows(RuntimeException.class, () -> {
             Car car2 = park.pickUp(parkingLot, tickets, ticket);
         });

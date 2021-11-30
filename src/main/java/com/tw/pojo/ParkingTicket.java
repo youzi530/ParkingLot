@@ -8,11 +8,13 @@ public class ParkingTicket {
     private int tid;
     private String tName; //对应着用户的名字
     private int cid; //对应车的id
+    private int pid; //对应停车场的id
 
-    public ParkingTicket(int tid, String tName, int cid) {
+    public ParkingTicket(int tid, String tName, int cid, int pid) {
         this.tid = tid;
         this.tName = tName;
         this.cid = cid;
+        this.pid = pid;
     }
 
     public ParkingTicket() {
@@ -42,12 +44,21 @@ public class ParkingTicket {
         this.cid = cid;
     }
 
+    public int getPid() {
+        return pid;
+    }
+
+    public void setPid(int pid) {
+        this.pid = pid;
+    }
+
     @Override
     public String toString() {
         return "ParkingTicket{" +
                 "tid=" + tid +
                 ", tName='" + tName + '\'' +
                 ", cid=" + cid +
+                ", pid=" + pid +
                 '}';
     }
 }

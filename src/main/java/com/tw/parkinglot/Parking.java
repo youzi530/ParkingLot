@@ -27,7 +27,7 @@ public class Parking {
         } else {
             for (int i = 0; i < usersNum; i++) {
                 if (prakNum > 0) {
-                    ParkingTicket parkingTicket = new ParkingTicket(100 + users.get(i).getUid(), users.get(i).getName(), users.get(i).getCid());
+                    ParkingTicket parkingTicket = new ParkingTicket(100 + users.get(i).getUid(), users.get(i).getName(), users.get(i).getCid(), parkingLot.getPid());
                     ticketList.add(parkingTicket);
                     prakNum--;
 
@@ -39,6 +39,42 @@ public class Parking {
             }
             return ticketList;
         }
+    }
+
+    public List<ParkingTicket> parking(ParkingLot parkingLot1, ParkingLot parkingLot2, List<User> users) {
+        int usersNum = users.size(); //当前等待停车的用户数量
+        int prakNum1 = parkingLot1.getpNumber() - parkingLot1.getCarList().size(); //当前停车场1剩余车位数 = 停车场的车位数-停车场已有车数量
+        int prakNum2 = parkingLot2.getpNumber() - parkingLot2.getCarList().size(); //当前停车场2剩余车位数 = 停车场的车位数-停车场已有车数量
+
+        ArrayList<ParkingTicket> ticketList = new ArrayList<>();
+        boolean flag = true;
+        for (int i = 0; i < usersNum; i++) {
+            flag = true;
+            if (prakNum1 > 0) { //当第一个停车场的剩余车位数大于零，就停到第一个停车场中
+                ParkingTicket parkingTicket = new ParkingTicket(100 + users.get(i).getUid(), users.get(i).getName(), users.get(i).getCid(), parkingLot1.getPid());
+                ticketList.add(parkingTicket);
+                prakNum1--;
+
+                //停车后就需要往停车场新增一辆车的信息，以模拟取车的时候业务
+                List<Car> carList = parkingLot1.getCarList();
+                carList.add(new Car(users.get(i).getCid(), users.get(i).getcName()));
+                parkingLot1.setCarList(carList);
+                if (prakNum1 == 0) {
+                    flag = false;
+                }
+            }
+            if (flag == true && prakNum1 == 0 && prakNum2 > 0) { //当第一个停车场的剩余车位数为于零，就停到第二个停车场中
+                ParkingTicket parkingTicket = new ParkingTicket(100 + users.get(i).getUid(), users.get(i).getName(), users.get(i).getCid(), parkingLot2.getPid());
+                ticketList.add(parkingTicket);
+                prakNum2--;
+
+                //停车后就需要往停车场新增一辆车的信息，以模拟取车的时候业务
+                List<Car> carList = parkingLot2.getCarList();
+                carList.add(new Car(users.get(i).getCid(), users.get(i).getcName()));
+                parkingLot2.setCarList(carList);
+            }
+        }
+        return ticketList;
     }
 
     //错误逻辑：不能用用户保存的cid去和车的cid进行比较，而应该是车票和票池去比较

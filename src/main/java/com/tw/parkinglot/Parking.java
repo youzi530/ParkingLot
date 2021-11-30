@@ -112,4 +112,21 @@ public class Parking {
         originTickets.remove(ticket);
         return car1;
     }
+
+    public Car pickUp(ParkingLot parkingLot1, ParkingLot parkingLot2, List<ParkingTicket> originTickets, ParkingTicket ticket) {
+        List<Car> carList1 = parkingLot1.getCarList();
+        List<Car> carList2 = parkingLot2.getCarList();
+
+        if (originTickets.isEmpty() || !originTickets.contains(ticket)) {
+            throw new RuntimeException("车票无效，取车失败！");
+        }
+        // car id = ticket id ??
+        boolean present1 = carList1.stream().filter(car -> car.getCid().equals(ticket.getCid())).findAny().isPresent();
+        boolean present2 = carList2.stream().filter(car -> car.getCid().equals(ticket.getCid())).findAny().isPresent();
+
+        ParkingTicket parkingTicket = originTickets.stream().filter(tickets -> tickets.getCid() == ticket.getCid()).findFirst().get();
+        originTickets.remove(ticket);
+        return present1 == true ? carList1.stream().filter(car -> car.getCid().equals(ticket.getCid())).findFirst().get()
+                : carList2.stream().filter(car -> car.getCid().equals(ticket.getCid())).findFirst().get();
+    }
 }

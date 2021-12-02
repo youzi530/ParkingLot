@@ -112,5 +112,39 @@ public class ParkingTest {
         });
     }
 
+    @Test
+    public void should_pick_my_car_when_parkingLot_only_park_my_car() {
+        //Given 停车场只停了我的车
+        ParkingLot parkingLot1 = new ParkingLot(101, 2, new ArrayList<>());
+        ParkingLot parkingLot2 = new ParkingLot(102, 3, new ArrayList<>());
+        users.add(sri);
+        users.add(heny);
+        users.add(lucy);
+        Parking park = new Parking();
+        List<ParkingTicket> tickets = park.parking(parkingLot1, parkingLot2, users);
+        //When 用我的停车票取车
+        Car car = park.pickUp(parkingLot1, parkingLot2, tickets, tickets.get(0));
+        //Then 取车我的车
+        assertEquals("比亚迪", car.getCarName());
+        assertEquals(1006, car.getCid());
+    }
 
+    @Test
+    public void should_pick_my_car_when_parkingLot_park_many_cars() {
+        //Given 停车场停了多辆车，也有我的车
+        List<Car> carList1 = Stream.of(new Car(1009, "保时捷"), new Car(1025, "比亚迪")).collect(Collectors.toList());
+        List<Car> carList2 = Stream.of(new Car(1056, "悍马"), new Car(1087, "野马")).collect(Collectors.toList());
+        ParkingLot parkingLot1 = new ParkingLot(101, 20, carList1);
+        ParkingLot parkingLot2 = new ParkingLot(102, 3, carList2);
+        users.add(sri);
+        users.add(heny);
+        users.add(lucy);
+        Parking park = new Parking();
+        List<ParkingTicket> tickets = park.parking(parkingLot1, parkingLot2, users);
+        //When 用我的停车票取车
+        Car car = park.pickUp(parkingLot1, parkingLot2, tickets, tickets.get(0));
+        //Then 取出我的车
+        assertEquals("比亚迪", car.getCarName());
+        assertEquals(1006, car.getCid());
+    }
 }

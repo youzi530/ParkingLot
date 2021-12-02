@@ -7,12 +7,14 @@ import com.tw.pojo.ParkingTicket;
 import com.tw.pojo.User;
 import org.junit.Before;
 import org.junit.Test;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ParkingTest {
 
@@ -75,4 +77,40 @@ public class ParkingTest {
         assertEquals(1, parking.size());
         assertEquals(102, parking.get(0).getPid());
     }
+
+    //任务分解2
+    @Test
+    public void should_park_in_different_parkingLot_when_two_parkingLot_has_same_parking_spaces() {
+        //Given 有两个停车场，两个停车位一样多且足够
+        List<Car> carList1 = Stream.of(new Car(1009, "保时捷"), new Car(1025, "比亚迪")).collect(Collectors.toList());
+        List<Car> carList2 = Stream.of(new Car(1056, "悍马"), new Car(1087, "野马")).collect(Collectors.toList());
+        ParkingLot parkingLot1 = new ParkingLot(101, 3, carList1);
+        ParkingLot parkingLot2 = new ParkingLot(102, 3, carList2);
+        //When 按顺序停多辆车
+        users.add(sri);
+        users.add(heny);
+        //Then 车辆按顺序交替停在第一个、第二个停车场
+        List<ParkingTicket> parking = new Parking().parking(parkingLot1, parkingLot2, users);
+        assertEquals(2, parking.size());
+        assertEquals(101, parking.get(0).getPid());
+        assertEquals(102, parking.get(1).getPid());
+    }
+
+    @Test
+    public void should_park_fail_when_two_parkingLot_is_full() {
+        //Given 有两个停车场，两个停车场车位都满了
+        List<Car> carList1 = Stream.of(new Car(1009, "保时捷"), new Car(1025, "比亚迪")).collect(Collectors.toList());
+        List<Car> carList2 = Stream.of(new Car(1056, "悍马"), new Car(1087, "野马")).collect(Collectors.toList());
+        ParkingLot parkingLot1 = new ParkingLot(101, 2, carList1);
+        ParkingLot parkingLot2 = new ParkingLot(102, 2, carList2);
+        //When 停车
+        users.add(sri);
+        users.add(heny);
+        //Then 停车失败
+        assertThrows(RuntimeException.class, () -> {
+            new Parking().parking(parkingLot1, parkingLot2, users);
+        });
+    }
+
+
 }

@@ -147,4 +147,45 @@ public class ParkingTest {
         assertEquals("比亚迪", car.getCarName());
         assertEquals(1006, car.getCid());
     }
+
+    //任务分解4
+    @Test
+    public void should_pick_up_failed_when_ticket_is_invalid() {
+        //Given 停了我的车的停车场
+        List<Car> carList1 = Stream.of(new Car(1009, "保时捷"), new Car(1025, "比亚迪")).collect(Collectors.toList());
+        List<Car> carList2 = Stream.of(new Car(1056, "悍马"), new Car(1087, "野马")).collect(Collectors.toList());
+        ParkingLot parkingLot1 = new ParkingLot(101, 20, carList1);
+        ParkingLot parkingLot2 = new ParkingLot(102, 3, carList2);
+        users.add(sri);
+        users.add(heny);
+        users.add(lucy);
+        Parking park = new Parking();
+        List<ParkingTicket> tickets = park.parking(parkingLot1, parkingLot2, users);
+        //When 用一张无效的票取车
+        //Then 取车失败
+        assertThrows(RuntimeException.class, () -> {
+            park.pickUp(parkingLot1, parkingLot2, tickets, new ParkingTicket(10001, "Sri", 1006, parkingLot.getPid()));
+        });
+    }
+
+    @Test
+    public void should_pick_up_again_failed_when_car_had_pick_up() {
+        //Given 一个停了我的车的停车场
+        List<Car> carList1 = Stream.of(new Car(1009, "保时捷"), new Car(1025, "比亚迪")).collect(Collectors.toList());
+        List<Car> carList2 = Stream.of(new Car(1056, "悍马"), new Car(1087, "野马")).collect(Collectors.toList());
+        ParkingLot parkingLot1 = new ParkingLot(101, 20, carList1);
+        ParkingLot parkingLot2 = new ParkingLot(102, 3, carList2);
+        users.add(sri);
+        users.add(heny);
+        users.add(lucy);
+        Parking park = new Parking();
+        List<ParkingTicket> tickets = park.parking(parkingLot1, parkingLot2, users);
+        //When 用同一张票取车两次
+        Car car1 = park.pickUp(parkingLot1, parkingLot2, tickets, tickets.get(0));
+        //Then 第二次取车失败
+        ParkingTicket ticket = new ParkingTicket(100101, "Sri", 1006, parkingLot1.getPid());
+        assertThrows(RuntimeException.class, () -> {
+            Car car2 = park.pickUp(parkingLot1, parkingLot2, tickets, ticket);
+        });
+    }
 }
